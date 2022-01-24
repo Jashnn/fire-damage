@@ -18,11 +18,11 @@ const getTotal = (id) => {
 };
 
 
-const TutorialService = {
+const ClientDataService = {
   find,
   create,
   update,
   getTotal
 };
 
-export default TutorialService;
+export default ClientDataService;
