@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import clientDataService from "../services/ClientDataService";
 import AddClaim from "./AddClaim";
 
 const AddClientData = (props) => {
 
-  let initialTutorialState = {
+  let initialClientDataState = {
     id: null,
     firstName: "",
     surName: "",
@@ -14,11 +14,11 @@ const AddClientData = (props) => {
     dateOfLCA:"",
     insuranceData:[]
   };
-  const [tutorial, setTutorial] =  useState(initialTutorialState);
+  const [clientData, setClientData] =  useState(initialClientDataState);
   const [insuranceData, setInsuranceData] =  useState([]);
   useEffect(() => { 
   if(!props.isAddFlow) {
-    setTutorial(props.data); 
+    setClientData(props.data); 
     setInsuranceData(props.data); 
   }
   }, [props.data]);
@@ -26,7 +26,7 @@ const AddClientData = (props) => {
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setClientData({ ...clientData, [name]: value });
     
   };
 
@@ -34,7 +34,7 @@ const AddClientData = (props) => {
     setInsuranceData({...insuranceData,p});
 
     let indexOfObject = 0;
-    const ind = tutorial.insuranceData.filter((d, index) => {
+    const ind = clientData.insuranceData.filter((d, index) => {
       console.log(p.id +"     " + d.id); 
       if(p.id === d.id){
         indexOfObject = index;
@@ -44,27 +44,27 @@ const AddClientData = (props) => {
       }
     })
 
-    tutorial.insuranceData[indexOfObject] = p;
-    setTutorial(...tutorial);
+    clientData.insuranceData[indexOfObject] = p;
+    setClientData(...clientData);
   }
 
   const addClaimData = (data) => {
-    tutorial.insuranceData.push(data);
-    setTutorial({ ...tutorial });
+    clientData.insuranceData.push(data);
+    setClientData({ ...clientData });
   }
   const removeClaimData = (d) => {
-    let inD = tutorial.insuranceData.indexOf(d);
-    const a = tutorial.insuranceData.splice(inD,1);
-   setTutorial({ ...tutorial});
+    let inD = clientData.insuranceData.indexOf(d);
+    const a = clientData.insuranceData.splice(inD,1);
+   setClientData({ ...clientData});
   }
 
   const saveClient = () => {
     var data = {
-      ...tutorial
+      ...clientData
     };
 
     if(props.isAddFlow) {
-    TutorialDataService.create(data)
+    clientDataService.create(data)
       .then(response => {
         alert("Client ID ::" + response.data.clientData.id);
       })
@@ -74,10 +74,10 @@ const AddClientData = (props) => {
     }else {
 
       data = {
-        ...tutorial, id:props.data.id
+        ...clientData, id:props.data.id
       } 
 
-      TutorialDataService.update(data)
+      clientDataService.update(data)
       .then(response => {
         alert("Successfully Updated!!");
       })
@@ -101,7 +101,7 @@ const AddClientData = (props) => {
               type="text"
               className="form-control"
               id="title"
-              value={tutorial.firstName}
+              value={clientData.firstName}
               onChange={handleInputChange}
               name="firstName"
             />
@@ -110,7 +110,7 @@ const AddClientData = (props) => {
               type="text"
               className="form-control"
               id="title"
-              value={tutorial.surName}
+              value={clientData.surName}
               onChange={handleInputChange}
               name="surName"
             />
@@ -119,12 +119,12 @@ const AddClientData = (props) => {
               type="date"
               className="form-control"
               id="title"
-              value={tutorial.dateOfBirth}
+              value={clientData.dateOfBirth}
               onChange={handleInputChange}
               name="dateOfBirth"
             />
             <label htmlFor="title">State</label>
-            <select class="form-select" aria-label="Default select example" selected value={tutorial.state} name="state" onChange={handleInputChange}>
+            <select class="form-select" aria-label="Default select example" selected value={clientData.state} name="state" onChange={handleInputChange}>
               <option value="NSW">NSW</option>
               <option value="QLD">QLD</option>
               <option value="SA">SA</option>
@@ -135,7 +135,7 @@ const AddClientData = (props) => {
 
 
             <label htmlFor="title">Land Owner</label>
-            <select class="form-select" aria-label="Default select example" selected value={tutorial.landOwner} name="landOwner" onChange={handleInputChange}>
+            <select class="form-select" aria-label="Default select example" selected value={clientData.landOwner} name="landOwner" onChange={handleInputChange}>
               <option value="YES">YES</option>
               <option value="NO">NO</option>
               <option value="NOT_SET">NOT_SET</option>
@@ -149,8 +149,8 @@ const AddClientData = (props) => {
               type="date"
               className="form-control"
               id="description"
-              selected={tutorial.dateOfLCA}
-              value={tutorial.dateOfLCA}
+              selected={clientData.dateOfLCA}
+              value={clientData.dateOfLCA}
               onChange={handleInputChange}
               name="dateOfLCA"
 
@@ -168,11 +168,11 @@ const AddClientData = (props) => {
             <div className="col">
             <div className="row">
               <div className="col-sm">
-              {tutorial.insuranceData.length > 0 && 
+              {clientData.insuranceData.length > 0 && 
                 <ul class="list-group">
                 
                   <li class="list-group-item active">Claim Data List</li>
-                  {tutorial.insuranceData.map((d) => {
+                  {clientData.insuranceData.map((d) => {
                     return (
                       <li class="list-group-item"> {d.policyNumber} &nbsp;&nbsp;&nbsp;
                       <button className= "btn-sm btn-danger" style={{float:"right"}} onClick={() => removeClaimData(d) }>X</button> 
@@ -183,7 +183,7 @@ const AddClientData = (props) => {
 }
               </div>
               <div className="col">
-                <AddClaim addClaimData={addClaimData} data={tutorial.insuranceData} isAddFlow={props.isAddFlow} handleClaimChanges={handleclaimInputChange}></AddClaim>
+                <AddClaim addClaimData={addClaimData} data={clientData.insuranceData} isAddFlow={props.isAddFlow} handleClaimChanges={handleclaimInputChange}></AddClaim>
               </div>
              
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddClientData from "./AddClientData";
-import TutorialDataService from "../services/TutorialService";
+import clientDataService from "../services/ClientDataService";
 
 const FindClient = () => {
 
@@ -16,7 +16,7 @@ const FindClient = () => {
             alert("Provide a valid Client Id");
         }
         else {
-            TutorialDataService.find(id)
+            clientDataService.find(id)
                 .then(response => {
                     setJsonData(response.data.clientData);
                     setResponseReceived(true);
@@ -34,7 +34,7 @@ const FindClient = () => {
             alert("Provide a valid Client Id");
         }
         else {
-            TutorialDataService.getTotal(id)
+            clientDataService.getTotal(id)
                 .then(response => {
                     setTotal(response.data);
                     setTotalResponseRecevied(true);

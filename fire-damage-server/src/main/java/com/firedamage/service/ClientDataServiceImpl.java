@@ -5,14 +5,12 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.firedamage.dao.ClientDataDao;
+import com.firedamage.domain.ClientData;
+import com.firedamage.dto.TotalDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.firedamage.dao.ClientDataDao;
-import com.firedamage.dao.InsuranceClaimDaoData;
-import com.firedamage.domain.ClientData;
-import com.firedamage.domain.InsuranceClaimData;
-import com.firedamage.dto.TotalDTO;
 
 /*
  * this class will implementation of Client service 
@@ -24,9 +22,6 @@ public class ClientDataServiceImpl implements ClientDataService {
 	
 	@Autowired
 	private ClientDataDao clientDataDao;
-	
-	@Autowired
-	private InsuranceClaimDaoData insuranceDao;
 
 	@Override
 	public ClientData create(ClientData clientData) {
